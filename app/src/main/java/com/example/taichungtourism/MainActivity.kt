@@ -175,15 +175,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     tvAddress.text = data.address
                     tvIntro.text = data.introduction
                     btnClose.setOnClickListener { dialog2.dismiss() }
-                    val isCollect = checkIsCollected(data)
+                    var isCollect = checkIsCollected(data)
                     imgCollect.setImageResource(if (isCollect) R.drawable.icon_star_yellow_fill else R.drawable.icon_star_yellow_notfill)
                     imgCollect.setOnClickListener {
                         if (isCollect) {
                             removeCollection(data)
                             imgCollect.setImageResource(R.drawable.icon_star_yellow_notfill)
+                            isCollect = false
                         } else {
                             addCollection(data)
                             imgCollect.setImageResource(R.drawable.icon_star_yellow_fill)
+                            isCollect = true
                         }
 
                     }
