@@ -27,12 +27,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <ImageView
+                android:id="@+id/imgCollect"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/icon_star_yellow_notfill"
+                app:layout_constraintTop_toBottomOf="@id/imgAttraction"
+                app:layout_constraintEnd_toEndOf="parent" />
+
             <!-- Dialog Title -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:minWidth="150dp"
                 android:text="景點名稱"
                 android:textSize="28sp"
@@ -41,7 +50,7 @@
                 android:layout_gravity="center"
                 app:layout_constraintStart_toStartOf="@id/imgAttraction"
                 app:layout_constraintEnd_toEndOf="@id/imgAttraction"
-                app:layout_constraintTop_toBottomOf="@id/imgAttraction"/>
+                app:layout_constraintTop_toBottomOf="@id/imgCollect"/>
 
             <TextView
                 android:id="@+id/tvAddress"

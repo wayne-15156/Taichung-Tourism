@@ -32,6 +32,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private lateinit var binding: ActivityMainBinding
@@ -46,14 +47,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var spinnerAdapter: ArrayAdapter<String>
     private val spinnerItemList = ArrayList<String>()
 
-    data class Attraction(
-        val name: String,
-        val lat: Double,
-        val lng: Double,
-        val address: String,
-        val introduction: String,
-        val imageUrl: String
-    )
+    private lateinit var fileHelper: FileHelper
 
     @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(
@@ -78,7 +72,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         ActivityCompat.requestPermissions(this,
             arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
 
+        fileHelper = FileHelper(this)
         setSpinner()
+
+        binding.imgCollection.setOnClickListener {
+            switchToCollectionFragment()
+        }
+
+    }
+
+    private fun switchToCollectionFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, CollectionFragment())
+            .addToBackStack(null) // 可選，允許返回到上一個 Fragment
+            .commit()
     }
 
     private fun setSpinner() = binding.apply {
@@ -168,6 +175,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     tvAddress.text = data.address
                     tvIntro.text = data.introduction
                     btnClose.setOnClickListener { dialog2.dismiss() }
+                    val isCollect = checkIsCollected(data)
+                    imgCollect.setImageResource(if (isCollect) R.drawable.icon_star_yellow_fill else R.drawable.icon_star_yellow_notfill)
+                    imgCollect.setOnClickListener {
+                        if (isCollect) {
+                            removeCollection(data)
+                            imgCollect.setImageResource(R.drawable.icon_star_yellow_notfill)
+                        } else {
+                            addCollection(data)
+                            imgCollect.setImageResource(R.drawable.icon_star_yellow_fill)
+                        }
+
+                    }
                 }
                 dialog2.show()
             }
@@ -186,6 +205,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
         dialog.show()
+    }
+
+    private fun checkIsCollected(data: Attraction): Boolean {
+        val allItems =  fileHelper.readAll()
+        return allItems.any { it.name == data.name }
+    }
+
+    private fun addCollection(data: Attraction) {
+        fileHelper.save(data)
+    }
+
+    private fun removeCollection(data: Attraction) {
+        fileHelper.delete(data.name)
     }
 
     private fun loadCSVFile() {

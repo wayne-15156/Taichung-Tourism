@@ -44,6 +44,7 @@
             android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
             android:background="@color/white"
             android:popupBackground="@drawable/bg_white2"
             android:layout_centerInParent="true"
@@ -51,7 +52,7 @@
             app:layout_constraintTop_toTopOf="@id/tv"
             app:layout_constraintBottom_toBottomOf="@id/tv"
             app:layout_constraintStart_toEndOf="@id/tv"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toStartOf="@id/imgCollection"/>
 
         <View
             android:layout_width="0dp"
@@ -62,6 +63,18 @@
             app:layout_constraintStart_toStartOf="@id/spinner"
             app:layout_constraintTop_toTopOf="@id/spinner" />
 
+        <ImageView
+            android:id="@+id/imgCollection"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="4dp"
+            android:src="@drawable/icon_star_yellow_fill"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="@id/spinner"
+            app:layout_constraintBottom_toBottomOf="@id/spinner"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <fragment
@@ -71,6 +84,12 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/clTopContent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="100dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
